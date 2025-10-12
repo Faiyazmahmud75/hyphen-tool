@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Text Formatter Tool</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
   <style>
     :root {
       --primary: #4a90e2;
@@ -175,7 +176,7 @@
   </style>
 </head>
 <body>
-  <header>✨ Text Formatter Tool</header>
+  <header><i class="bi bi-file-earmark-font"></i> Text Formatter Tool</header>
 
   <div class="container">
     <h2>Smart Text Formatter</h2>
@@ -212,7 +213,7 @@
   </div>
 
   <footer>
-    © 2025 <a href="#">Text Formatter Tool</a> • Crafted with precision
+    © 2025 <a href="#">Text Formatter Tool</a> • Made with ❤️ by <a href="https://github.com/Faiyazmahmud75/">Faiyaz</a>
   </footer>
 
   <script>
@@ -227,7 +228,7 @@
       let formatted = lines.map(line => {
         const base = line.toLowerCase().replace(/\s+/g, '-');
         if (formatType === "hyphen") return base;
-        if (formatType === "comma") return line.toLowerCase().replace(/\s+/g, ',');
+        if (formatType === "comma") return line.toLowerCase() + ',');
         if (formatType === "both") return base + ',';
         return base;
       });
