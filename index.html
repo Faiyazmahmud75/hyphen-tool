@@ -228,7 +228,7 @@
       let formatted = lines.map(line => {
         const base = line.toLowerCase().replace(/\s+/g, '-');
         if (formatType === "hyphen") return base;
-        if (formatType === "comma") return line.toLowerCase() + ',');
+        if (formatType === "comma") return line.toLowerCase() + ',';
         if (formatType === "both") return base + ',';
         return base;
       });
