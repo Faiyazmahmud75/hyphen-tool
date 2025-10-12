@@ -2,38 +2,63 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Hyphen Formatter Tool</title>
+  <title>Text Formatter Tool</title>
   <style>
+    :root {
+      --primary: #4a90e2;
+      --primary-dark: #357ab8;
+      --bg: #f7f9fc;
+      --white: #ffffff;
+      --text: #333;
+      --muted: #666;
+    }
+
     body {
-      font-family: "Segoe UI", Tahoma, sans-serif;
-      background: linear-gradient(135deg, #f6f9fc, #e3f2fd);
+      font-family: "Inter", "Segoe UI", Tahoma, sans-serif;
+      background: var(--bg);
       margin: 0;
-      padding: 40px;
+      padding: 0;
+      color: var(--text);
       display: flex;
-      justify-content: center;
-      align-items: flex-start;
+      flex-direction: column;
+      align-items: center;
       min-height: 100vh;
-      color: #333;
     }
-    .container {
-      background: #ffffff;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-      max-width: 700px;
+
+    header {
+      background: var(--white);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
       width: 100%;
+      padding: 20px 0;
+      text-align: center;
+      font-weight: 600;
+      font-size: 20px;
+      color: var(--primary-dark);
+      letter-spacing: 0.5px;
     }
+
+    .container {
+      background: var(--white);
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 4px 25px rgba(0, 0, 0, 0.07);
+      max-width: 750px;
+      width: 90%;
+      margin: 40px 0;
+    }
+
     h2 {
       margin-top: 0;
-      font-weight: 600;
-      color: #2a4d69;
       text-align: center;
+      color: var(--primary-dark);
     }
+
     p {
       text-align: center;
-      color: #555;
+      color: var(--muted);
       font-size: 15px;
     }
+
     textarea, pre {
       width: 100%;
       height: 180px;
@@ -46,60 +71,171 @@
       background: #fafafa;
       font-family: monospace;
       line-height: 1.5;
+      box-sizing: border-box;
+      transition: border 0.2s ease;
     }
-    button {
-      background: #4a90e2;
-      color: white;
-      border: none;
-      padding: 12px 24px;
-      cursor: pointer;
-      border-radius: 8px;
+
+    textarea:focus {
+      border-color: var(--primary);
+      outline: none;
+      background: #fff;
+    }
+
+    .options {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      margin: 15px 0;
+      gap: 10px;
+    }
+
+    .option-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    label {
       font-size: 14px;
-      transition: background 0.2s ease;
+      color: var(--muted);
     }
-    button:hover {
-      background: #357ab8;
+
+    select {
+      padding: 8px 10px;
+      border-radius: 6px;
+      border: 1px solid #ccd;
+      background: #fff;
+      font-size: 14px;
+      cursor: pointer;
+      transition: border 0.2s ease;
     }
+
+    select:focus {
+      border-color: var(--primary);
+      outline: none;
+    }
+
     .actions {
       display: flex;
       justify-content: center;
-      gap: 10px;
-      margin-bottom: 15px;
+      gap: 12px;
+      margin-bottom: 20px;
     }
+
+    button {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 12px 26px;
+      cursor: pointer;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 500;
+      transition: all 0.25s ease;
+    }
+
+    button:hover {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+    }
+
     pre {
       white-space: pre-wrap;
       word-wrap: break-word;
       background: #fdfdfd;
+      border: 1px solid #eee;
+      border-radius: 8px;
+      padding: 12px;
+      font-size: 14px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 13px;
+      color: #999;
+      background: var(--white);
+      border-top: 1px solid #eee;
+      width: 100%;
+      margin-top: auto;
+    }
+
+    footer a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
 <body>
+  <header>✨ Text Formatter Tool</header>
+
   <div class="container">
-    <h2>Hyphen Formatter Tool</h2>
-    <p>Paste your text below, format it, and copy the results.</p>
-    
+    <h2>Smart Text Formatter</h2>
+    <p>Paste your text, choose your preferred format, and get a neatly formatted output instantly.</p>
+
     <textarea id="inputText" placeholder="Enter text here..."></textarea>
-    
+
+    <div class="options">
+      <div class="option-group">
+        <label for="formatType">Format Type:</label>
+        <select id="formatType">
+          <option value="hyphen">Hyphen (-)</option>
+          <option value="comma">Comma (,)</option>
+          <option value="both">Hyphen + Comma</option>
+        </select>
+      </div>
+
+      <div class="option-group">
+        <label for="layoutType">Output Layout:</label>
+        <select id="layoutType">
+          <option value="newline">New Line</option>
+          <option value="single">Single Line</option>
+        </select>
+      </div>
+    </div>
+
     <div class="actions">
       <button onclick="formatText()">Format</button>
       <button onclick="copyOutput()">Copy Output</button>
     </div>
-    
+
     <h3>Output:</h3>
     <pre id="outputText"></pre>
   </div>
 
-  <script>
-    function formatStringsWithHyphen(inputText) {
-      const lines = inputText.trim().split('\n');
-      return lines.map(line => 
-        line.toLowerCase().replace(/\s+/g, '-') + ','
-      ).join('\n');
-    }
+  <footer>
+    © 2025 <a href="#">Text Formatter Tool</a> • Crafted with precision
+  </footer>
 
+  <script>
     function formatText() {
-      const input = document.getElementById('inputText').value;
-      const output = formatStringsWithHyphen(input);
+      const input = document.getElementById('inputText').value.trim();
+      const formatType = document.getElementById('formatType').value;
+      const layoutType = document.getElementById('layoutType').value;
+      if (!input) return;
+
+      const lines = input.split('\n').map(line => line.trim()).filter(Boolean);
+
+      let formatted = lines.map(line => {
+        const base = line.toLowerCase().replace(/\s+/g, '-');
+        if (formatType === "hyphen") return base;
+        if (formatType === "comma") return line.toLowerCase().replace(/\s+/g, ',');
+        if (formatType === "both") return base + ',';
+        return base;
+      });
+
+      const output = layoutType === "single"
+        ? formatted.join(' ')
+        : formatted.join('\n');
+
       document.getElementById('outputText').textContent = output;
     }
 
@@ -107,7 +243,7 @@
       const output = document.getElementById('outputText').textContent;
       if (output.trim() !== "") {
         navigator.clipboard.writeText(output).then(() => {
-          alert("Output copied to clipboard!");
+          alert("✅ Output copied to clipboard!");
         });
       }
     }
