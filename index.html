@@ -284,9 +284,9 @@
       <div class="option-group">
         <label for="formatType">Format Type:</label>
         <select id="formatType">
+          <option value="both">Hyphen + Comma</option>
           <option value="hyphen">Hyphen (-)</option>
           <option value="comma">Comma (,)</option>
-          <option value="both">Hyphen + Comma</option>
         </select>
       </div>
 
@@ -359,7 +359,7 @@
         let formatted = lines.map(line => {
           const base = line.toLowerCase().replace(/\s+/g, '-');
           if (formatType === "hyphen") return base;
-          if (formatType === "comma") return line.toLowerCase().replace(/\s+/g, ',');
+          if (formatType === "comma") return line.toLowerCase() + ',';
           if (formatType === "both") return base + ',';
           return base;
         });
