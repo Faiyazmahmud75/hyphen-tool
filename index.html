@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Text Formatter Tool</title>
@@ -80,7 +81,8 @@
       font-size: 15px;
     }
 
-    textarea, pre {
+    textarea,
+    pre {
       width: 100%;
       height: 180px;
       margin: 12px 0;
@@ -96,7 +98,7 @@
       transition: all 0.3s ease;
     }
 
-    body.dark-mode textarea, 
+    body.dark-mode textarea,
     body.dark-mode pre {
       background: #1e293b;
       border-color: #2e3b4e;
@@ -153,6 +155,7 @@
     .actions {
       display: flex;
       justify-content: center;
+      align-items: center;
       gap: 12px;
       margin-bottom: 20px;
       flex-wrap: wrap;
@@ -162,7 +165,7 @@
       background: var(--primary);
       color: white;
       border: none;
-      padding: 12px 26px;
+      padding: 12px 20px;
       cursor: pointer;
       border-radius: 8px;
       font-size: 15px;
@@ -174,6 +177,24 @@
       background: var(--primary-dark);
       transform: translateY(-1px);
       box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-close:hover {
+      text-decoration: none;
+      opacity: var(--bs-btn-close-hover-opacity);
+      box-shadow: none;
+      background: var(--bs-btn-close-bg);
+      transform: translate(0px, 0px);
+    }
+
+    #clearBtn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: medium;
     }
 
     pre {
@@ -265,9 +286,10 @@
     }
   </style>
 </head>
+
 <body>
   <header>
-    <i class="bi bi-magic"></i> Text Formatter Tool
+    <i class="bi bi-textarea-t"></i> Text Formatter Tool
     <button id="darkModeToggle" class="dark-toggle" title="Toggle Dark Mode">
       <i class="bi bi-moon-fill"></i>
       <i class="bi bi-sun-fill"></i>
@@ -300,8 +322,9 @@
     </div>
 
     <div class="actions">
-      <button id="formatBtn">Format</button>
-      <button id="copyBtn">Copy Output</button>
+      <button id="formatBtn"><i class="bi bi-magic"></i> &nbsp; Format</button>
+      <button id="copyBtn"><i class="bi bi-copy"></i>&nbsp; Copy</button>
+      <button id="clearBtn" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
     </div>
 
     <h3>Output:</h3>
@@ -309,13 +332,31 @@
   </div>
 
   <footer>
-   © 2025 <a href="#">Text Formatter Tool</a> • Made with ❣️ by <a href="https://github.com/Faiyazmahmud75" target="_blank">Faiyaz</a> • Powered by <a href="https://zhrdigital.com" target="_blank">ZHR Digital</a>
+    © 2025 <a href="#">Text Formatter Tool</a> • Made with ❣️ by <a href="https://github.com/Faiyazmahmud75"
+      target="_blank">Faiyaz</a> • Powered by <a href="https://zhrdigital.com" target="_blank">ZHR Digital</a>
   </footer>
 
   <div class="toast-container position-fixed bottom-0 end-0 p-3">
-    <div id="copyToast" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+    <div id="copyToast" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive"
+      aria-atomic="true">
       <div class="d-flex">
         <div class="toast-body">✅ Output copied to clipboard!</div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+      </div>
+    </div>
+    <div id="copyError" class="toast align-items-center text-bg-danger border-0" role="alert" aria-live="assertive"
+      aria-atomic="true">
+      <div class="d-flex">
+        <div class="toast-body">
+          ⚠️ Nothing to copy here! Please try again..</div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+      </div>
+    </div>
+    <div id="formatError" class="toast align-items-center text-bg-warning border-0" role="alert" aria-live="assertive"
+      aria-atomic="true">
+      <div class="d-flex">
+        <div class="toast-body">
+          No Input Text Found!</div>
         <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
       </div>
     </div>
@@ -330,6 +371,7 @@
       const formatBtn = document.getElementById('formatBtn');
       const copyBtn = document.getElementById('copyBtn');
       const formatTypeEl = document.getElementById('formatType');
+      const clearBtn = document.getElementById('clearBtn');
       const layoutTypeEl = document.getElementById('layoutType');
       const copyToastEl = document.getElementById('copyToast');
       const copyToast = new bootstrap.Toast(copyToastEl);
@@ -352,7 +394,11 @@
         const input = inputField.value.trim();
         const formatType = formatTypeEl.value;
         const layoutType = layoutTypeEl.value;
-        if (!input) return;
+        if (!input) {
+          const formatError = new bootstrap.Toast(document.getElementById('formatError'))
+          formatError.show();
+          return;
+        };
 
         const lines = input.split('\n').map(line => line.trim()).filter(Boolean);
 
@@ -377,11 +423,20 @@
         if (output.trim() !== "") {
           navigator.clipboard.writeText(output).then(() => copyToast.show());
         }
+        else {
+          const copyError = new bootstrap.Toast(document.getElementById('copyError'))
+          copyError.show();
+        }
       }
 
       formatBtn.addEventListener('click', formatText);
       copyBtn.addEventListener('click', copyOutput);
+      clearBtn.addEventListener('click', () => {
+        inputField.value = '';
+        outputField.textContent = '';
+      })
     });
   </script>
 </body>
+
 </html>
